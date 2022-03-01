@@ -1363,7 +1363,8 @@ ifeq ($(CONFIG_PLATFORM_ARM_RPI), y)
 ifeq ($(CONFIG_CONCURRENT_MODE), y)
 EXTRA_CFLAGS += -DCONFIG_CONCURRENT_MODE
 endif
-EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -mgeneral-regs-only
+GENERAL_REG_FLAG := $(shell if gcc -mgeneral-regs-only --version 2>&1 | grep -q 'unrecognized command line option'; then true; else echo -mgeneral-regs-only; fi)
+EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN $(GENERAL_REG_FLAG)
 EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 #EXTRA_CFLAGS += -DPLATFORM_LINUX
 ARCH ?= arm
